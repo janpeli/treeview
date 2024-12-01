@@ -1,11 +1,41 @@
-import { INode } from "./interfaces";
+import { NodeController } from "./controllers/node-controller";
+import {
+  Folder,
+  FolderClosed,
+  File,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 
 interface TreeNodeProps {
-  node: INode;
+  node: NodeController;
 }
 
 function TreeNode({ node }: TreeNodeProps) {
-  return <div>{node.data.name}</div>;
+  console.log(`node is rendering: ${node.data.name} : ${node.renders} `);
+  const Icon = () =>
+    node.data.isLeaf ? (
+      <File className="w-4 h-4" />
+    ) : node.isOpen ? (
+      <Folder className="w-4 h-4" />
+    ) : (
+      <FolderClosed className="w-4 h-4" />
+    );
+  return (
+    <div className="flex flex-row items-center">
+      {!node.data.isLeaf ? (
+        node.isOpen ? (
+          <ChevronDown className="w-4 h-4" />
+        ) : (
+          <ChevronRight className="w-4 h-4" />
+        )
+      ) : (
+        <div className="w-4 h-4" />
+      )}
+      <Icon />
+      {node.data.name}
+    </div>
+  );
 }
 
 export default TreeNode;

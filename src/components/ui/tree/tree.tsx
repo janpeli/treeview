@@ -1,4 +1,4 @@
-import { TreeController } from "./controllers/tree-controller";
+import { useTree } from "./hooks";
 import { IData } from "./interfaces";
 import TreeContainer from "./tree-container";
 
@@ -7,11 +7,13 @@ interface ITreeProps {
 }
 
 function Tree(props: ITreeProps) {
-  const tree = new TreeController(props.data);
+  const tree = useTree(props.data);
+  console.log("tree is rendering");
   console.log(tree);
   return (
     <div>
-      Tree conponent
+      Tree conponent: here is space for some controls?
+      <br />
       <TreeContainer tree={tree}></TreeContainer>
     </div>
   );
