@@ -8,10 +8,10 @@ interface ITreeProps {
 
 function Tree(props: ITreeProps) {
   const tree = useTree(props.data);
-  console.log("tree is rendering");
-  console.log(tree);
+  //console.log("tree is rendering");
+  //console.log(tree);
   return (
-    <div>
+    <div className=" h-full overflow-auto pb-3">
       Tree conponent: here is space for some controls?
       <br />
       <TreeContainer tree={tree}></TreeContainer>

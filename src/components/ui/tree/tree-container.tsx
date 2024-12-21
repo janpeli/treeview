@@ -8,9 +8,10 @@ interface TreeContainerProps {
 }
 
 let focusSearchTerm = "";
-let timeoutId: any = null;
+let timeoutId: number | undefined = undefined;
 
 function TreeContainer(props: TreeContainerProps) {
+  // to find quickly a node by typing starting leters
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = useCallback(
     (e) => {
       clearTimeout(timeoutId);
@@ -31,8 +32,12 @@ function TreeContainer(props: TreeContainerProps) {
 
   return (
     <>
-      TreeContainer
-      <div role="tree" aria-label="File tree" onKeyDown={handleKeyDown}>
+      <div
+        role="tree"
+        aria-label="File tree"
+        onKeyDown={handleKeyDown}
+        className="relative font-mono text-sm"
+      >
         {props.tree.visibleNodes.map((node) => (
           <TreeRow key={node.data.id} node={node} />
         ))}

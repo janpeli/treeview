@@ -18,6 +18,8 @@ export class TreeController implements ITree {
 
   isEditing: boolean = false;
 
+  expandedNodes: Set<NodeController> = new Set<NodeController>();
+
   constructor(
     data: IData,
     renders: number,
@@ -212,6 +214,26 @@ export class TreeController implements ITree {
       for (const child of node.children) {
         this.expandNode(child);
       }
+    }
+  }
+
+  dragSelectedNodes() {
+    if (this.selectedNodes.size) {
+      for (const node of this.selectedNodes) {
+        this.draggedNodes.add(node);
+        node.isDragged = true;
+        node.update();
+      }
+    }
+  }
+
+  clearDraggedNodes() {
+    if (this.draggedNodes.size) {
+      for (const node of this.draggedNodes) {
+        node.isDragged = false;
+        node.update();
+      }
+      this.draggedNodes.clear();
     }
   }
 }

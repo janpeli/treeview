@@ -1,5 +1,5 @@
 function TreeCursor() {
-  return <div>TreeCursor</div>;
+  return <div className="absolute">TreeCursor</div>;
 }
 
 export default TreeCursor;

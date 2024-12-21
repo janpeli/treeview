@@ -12,7 +12,7 @@ interface TreeNodeProps {
 }
 
 function TreeNode({ node }: TreeNodeProps) {
-  console.log(`node is rendering: ${node.data.name} : ${node.renders} `);
+  //console.log(`node is rendering: ${node.data.name} : ${node.renders} `);
   const Icon = () =>
     node.data.isLeaf ? (
       <File className="w-4 h-4" />
@@ -22,7 +22,7 @@ function TreeNode({ node }: TreeNodeProps) {
       <FolderClosed className="w-4 h-4" />
     );
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center gap-1">
       {!node.data.isLeaf ? (
         node.isOpen ? (
           <ChevronDown className="w-4 h-4" />

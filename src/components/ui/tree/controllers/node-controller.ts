@@ -79,8 +79,8 @@ export class NodeController implements INode {
 
       const newMultiSelectedNodes: NodeController[] =
         indexClicked >= indexAnchored
-          ? this.tree.visibleNodes.slice(indexAnchored, indexClicked)
-          : this.tree.visibleNodes.slice(indexClicked, indexAnchored);
+          ? this.tree.visibleNodes.slice(indexAnchored, indexClicked + 1)
+          : this.tree.visibleNodes.slice(indexClicked, indexAnchored + 1);
 
       this.tree.addSelectedNodes(newMultiSelectedNodes);
       this.tree.multiselectNodes = newMultiSelectedNodes;
@@ -285,9 +285,44 @@ export class NodeController implements INode {
     }
   };
 
-  handleDragStart: React.DragEventHandler<HTMLDivElement> = () => {};
+  handleDragStart: React.DragEventHandler<HTMLDivElement> = (e) => {
+    if (e.ctrlKey) {
+      this.tree.addSelectedNodes(this);
+    } else if (this.tree.selectedNodes.size === 1) {
+      this.tree.clearSelectedNodes();
+      this.tree.addSelectedNodes(this);
+    }
 
-  handleDragOver: React.DragEventHandler<HTMLDivElement> = () => {};
+    this.tree.dragSelectedNodes();
+    const listOfDraggedNodes = [...this.tree.draggedNodes].map(
+      (item) => item.data.id
+    );
 
-  handleDrop: React.DragEventHandler<HTMLDivElement> = () => {};
+    e.dataTransfer.setData(
+      "custom/treeDraggNodes",
+      JSON.stringify({ nodes: listOfDraggedNodes })
+    );
+    console.log("Drag Start");
+  };
+
+  handleDragOver: React.DragEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault(); // Allow dropping
+    if (!e.dataTransfer.types.includes("custom/treeDraggNodes")) return;
+    if (this.tree.draggedNodes.has(this)) return;
+  };
+
+  handleDrop: React.DragEventHandler<HTMLDivElement> = (e) => {
+    this.tree.clearDraggedNodes();
+    console.log("Drop");
+    console.log(e.dataTransfer.getData("custom/treeDraggNodes"));
+  };
+
+  handleDragEnter: React.DragEventHandler<HTMLDivElement> = () => {};
+
+  handleDragLeave: React.DragEventHandler<HTMLDivElement> = () => {};
+
+  handleDragEnd: React.DragEventHandler<HTMLDivElement> = () => {
+    this.tree.clearDraggedNodes();
+    console.log("Drag END");
+  };
 }

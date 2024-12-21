@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { NodeController } from "./controllers/node-controller";
 import TreeNode from "./tree-node";
 import React from "react";
@@ -22,10 +22,7 @@ export const TreeRow = React.memo(function TreeRowComponent(
     }
   }, [node.isEdited, node.isFocused]);
 
-  const nodeStyle = useMemo(
-    () => ({ paddingLeft: 14 * node.level }),
-    [node.level]
-  );
+  const nodeStyle = { paddingLeft: 14 * node.level };
 
   return (
     <div
@@ -33,7 +30,7 @@ export const TreeRow = React.memo(function TreeRowComponent(
       select-none outline-none
       ${node.isSelected ? "bg-blue-100 dark:bg-blue-800" : ""}
       ${node.isDragged ? "opacity-50" : ""}
-      ${node.isFocused ? "ring-2 ring-blue-400" : ""}
+      ${node.isFocused ? "ring-1 ring-blue-400" : ""}
     `}
       style={nodeStyle}
       onClick={(e) => node.handleClick(e)}
@@ -42,7 +39,10 @@ export const TreeRow = React.memo(function TreeRowComponent(
       draggable
       onDragStart={(e) => node.handleDragStart(e)}
       onDragOver={(e) => node.handleDragOver(e)}
+      onDragEnter={(e) => node.handleDragEnter(e)}
+      onDragLeave={(e) => node.handleDragLeave(e)}
       onDrop={(e) => node.handleDrop(e)}
+      onDragEnd={(e) => node.handleDragEnd(e)}
       role="treeitem"
       aria-expanded={node.isOpen}
       aria-selected={node.isSelected}
